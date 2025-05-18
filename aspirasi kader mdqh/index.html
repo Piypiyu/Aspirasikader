@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Kirim Aspirasi</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Form Aspirasi Kader Terkait Kepengurusan Priode 2025/2026</h1>
+      <form id="aspirasiForm">
+        <label>Nama (opsional):</label>
+        <input type="text" id="nama" placeholder="Silahkan Di Isi" />
+
+        <label>Kategori Aspirasi:</label>
+        <select id="kategori">
+          <option value="Kegiatan">Kegiatan</option>
+          <option value="Kepemimpinan">Kepemimpinan</option>
+          <option value="Kaderisasi">Kaderisasi</option>
+        </select>
+
+        <label>Kritikan:</label>
+        <textarea id="isi" rows="5" required></textarea>
+
+        <label>Solusi:</label>
+        <textarea id="isi" rows="5" required></textarea>
+
+        <button type="submit">Kirim Aspirasi</button>
+      </form>
+
+      <br />
+      <a href="daftar.html">➡️ Lihat Daftar Aspirasi</a>
+    </div>
+
+    <script>
+      const form = document.getElementById("aspirasiForm");
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const nama = document.getElementById("nama").value || "Anonim";
+        const kategori = document.getElementById("kategori").value;
+        const isi = document.getElementById("isi").value;
+
+        const data = JSON.parse(localStorage.getItem("aspirasi")) || [];
+
+        data.push({
+          nama,
+          kategori,
+          isi,
+          status: "Menunggu",
+        });
+
+        localStorage.setItem("aspirasi", JSON.stringify(data));
+        alert("Aspirasi berhasil dikirim!");
+        form.reset();
+      });
+    </script>
+  </body>
+</html>

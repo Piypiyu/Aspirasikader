@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Daftar Aspirasi</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Daftar Aspirasi Kader</h1>
+      <div id="aspirasiList"></div>
+      <br />
+      <a href="index.html">⬅️ Kembali ke Form</a>
+    </div>
+
+    <script>
+      const list = document.getElementById("aspirasiList");
+
+      function tampilkanAspirasi() {
+        list.innerHTML = "";
+        let data = JSON.parse(localStorage.getItem("aspirasi")) || [];
+
+        data.forEach((item, index) => {
+          let div = document.createElement("div");
+          div.className = "aspirasi-card";
+          div.innerHTML = `
+                    <strong>Nama:</strong> ${item.nama}<br>
+                    <strong>Kategori:</strong> ${item.kategori}<br>
+                    <strong>Aspirasi:</strong> ${item.isi}<br>
+                    <strong>Status:</strong> <em>${item.status}</em><br>
+                    <button onclick="editAspirasi(${index})">Edit</button>
+                    <button onclick="hapusAspirasi(${index})" style="background:#dc3545; margin-left:5px;">Hapus</button>
+                `;
+          list.appendChild(div);
+        });
+      }
+
+      function hapusAspirasi(index) {
+        if (confirm("Yakin ingin menghapus aspirasi ini?")) {
+          let data = JSON.parse(localStorage.getItem("aspirasi"));
+          data.splice(index, 1);
+          localStorage.setItem("aspirasi", JSON.stringify(data));
+          tampilkanAspirasi();
+        }
+      }
+
+      function editAspirasi(index) {
+        const data = JSON.parse(localStorage.getItem("aspirasi"));
+        const asp = data[index];
+
+        const isiEdit = prompt("Edit aspirasi:", asp.isi);
+        if (isiEdit !== null) {
+          asp.isi = isiEdit;
+          data[index] = asp;
+          localStorage.setItem("aspirasi", JSON.stringify(data));
+          tampilkanAspirasi();
+        }
+      }
+
+      tampilkanAspirasi();
+    </script>
+  </body>
+</html>
